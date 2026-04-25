@@ -1,0 +1,52 @@
+JOHN DOE
+Software Developer
+Email: john.doe@email.com
+Phone: (555) 123-4567
+LinkedIn: linkedin.com/in/johndoe
+GitHub: github.com/johndoe
+
+SUMMARY
+Experienced software developer with 5+ years of experience in Python, JavaScript, and cloud technologies. Passionate about building scalable applications and machine learning solutions.
+
+EDUCATION
+Bachelor of Technology in Computer Science
+ABC University, 2019
+CGPA: 8.5
+
+SKILLS
+Technical Skills: Python, JavaScript, React, Node.js, SQL, MongoDB, Docker, AWS, Git, REST API, HTML, CSS, Machine Learning, TensorFlow, Pandas, NumPy
+Soft Skills: Leadership, Communication, Problem Solving, Teamwork, Project Management
+
+WORK EXPERIENCE
+Senior Software Developer - Tech Corp
+Jan 2021 - Present
+- Developed and maintained microservices architecture serving 50,000+ daily users
+- Implemented CI/CD pipelines reducing deployment time by 40%
+- Led a team of 5 developers in building a real-time analytics dashboard
+- Optimized database queries resulting in 60% performance improvement
+
+Software Developer - StartupXYZ
+Jun 2019 - Dec 2020
+- Built RESTful APIs using Python Flask and FastAPI
+- Developed React frontend components for customer-facing applications
+- Integrated machine learning models for recommendation system
+- Managed AWS infrastructure including EC2, S3, and Lambda
+
+PROJECTS
+E-commerce Platform
+Technologies: React, Node.js, MongoDB, Stripe API
+Built a full-stack e-commerce platform with payment integration, user authentication, and real-time inventory management.
+
+ML Sentiment Analyzer
+Technologies: Python, TensorFlow, NLP, BERT
+Developed a sentiment analysis tool using BERT transformer model achieving 92% accuracy on customer reviews.
+
+CERTIFICATIONS
+AWS Certified Solutions Architect - Amazon, 2022
+Google Cloud Professional Data Engineer - Google, 2021
+TensorFlow Developer Certificate - Google, 2020
+
+ACHIEVEMENTS
+- Won first place in company hackathon for building an AI-powered code review tool
+- Published research paper on distributed systems at IEEE conference
+- Mentored 10+ junior developers in agile development practices
