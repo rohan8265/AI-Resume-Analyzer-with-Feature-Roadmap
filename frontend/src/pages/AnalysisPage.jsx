@@ -49,15 +49,21 @@ export default function AnalysisPage() {
       await selectDomain(resumeId, d);
       setDomain(d);
       toast.success(`Domain set: ${d}`);
-      // Auto-compute ATS score
-      const { data: scoreData } = await scoreResume(parseInt(resumeId));
-      setAtsScore(scoreData);
-      // Auto-extract skills
-      const { data: skillData } = await getExtractedSkills(resumeId);
-      setSkills(skillData);
-      // Auto-get gap analysis
+      
+      // Run ATS scoring and Skill Extraction in parallel for much faster performance
+      // Both operations take time (regex parsing + BERT NLP extraction)
+      const [scoreRes, skillRes] = await Promise.all([
+        scoreResume(parseInt(resumeId)),
+        getExtractedSkills(resumeId)
+      ]);
+      
+      setAtsScore(scoreRes.data);
+      setSkills(skillRes.data);
+      
+      // Auto-get gap analysis (this is fast now because skills are extracted)
       const { data: gapData } = await getSkillGap(resumeId);
       setGap(gapData);
+      
       setStep(3);
     } catch (err) {
       toast.error(err.response?.data?.detail || 'Analysis failed');
