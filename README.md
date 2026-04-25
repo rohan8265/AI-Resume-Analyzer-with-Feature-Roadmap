@@ -1,3 +1,12 @@
+---
+title: AI Resume Backend
+emoji: 🚀
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+pinned: false
+---
+
 # AI Resume Analyzer with Feature Roadmap
 
 An intelligent career tech platform that analyzes resumes, computes ATS scores, extracts skills using NLP, identifies skill gaps, and generates personalized weekly learning roadmaps.
