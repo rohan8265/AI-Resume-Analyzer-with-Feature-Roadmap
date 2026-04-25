@@ -116,6 +116,9 @@ def _ontology_match(text: str, domain_skills: list) -> list:
     return matched
 
 
+# Cache for domain skill embeddings
+_skill_embeddings_cache = {}
+
 def _bert_match(text: str, domain_skills: list) -> list:
     """Use Sentence-BERT to detect implicit skills."""
     model = _get_sentence_model()
@@ -129,9 +132,16 @@ def _bert_match(text: str, domain_skills: list) -> list:
         if not sentences:
             return []
 
-        # Encode
+        # Encode resume sentences
         sent_embeddings = model.encode(sentences[:50], show_progress_bar=False)
-        skill_embeddings = model.encode(domain_skills, show_progress_bar=False)
+        
+        # Cache domain skill embeddings (hash the first few skills as key to detect domain)
+        cache_key = tuple(domain_skills[:10])
+        global _skill_embeddings_cache
+        if cache_key not in _skill_embeddings_cache:
+            _skill_embeddings_cache[cache_key] = model.encode(domain_skills, show_progress_bar=False)
+        
+        skill_embeddings = _skill_embeddings_cache[cache_key]
 
         # Compute similarities
         for i, skill_emb in enumerate(skill_embeddings):
