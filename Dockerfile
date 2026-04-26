@@ -17,7 +17,6 @@ COPY backend/requirements.txt .
 
 # Install Python packages
 RUN pip install --no-cache-dir -r requirements.txt
-RUN python -m spacy download en_core_web_sm
 
 # Copy backend code and ensure user owns it
 COPY --chown=user:user backend/ .
