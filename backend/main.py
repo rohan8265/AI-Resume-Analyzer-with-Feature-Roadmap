@@ -55,6 +55,30 @@ app.include_router(admin_router)
 @app.on_event("startup")
 def startup():
     init_db()
+    
+    # Create default admin
+    from database import SessionLocal
+    from models import User
+    from auth import hash_password
+    
+    db = SessionLocal()
+    admin_email = "guptarohan91924@gmail.com"
+    user = db.query(User).filter(User.email == admin_email).first()
+    
+    if not user:
+        user = User(
+            name="Admin Rohan",
+            email=admin_email,
+            password_hash=hash_password("123455"),
+            is_admin=True
+        )
+        db.add(user)
+    else:
+        user.is_admin = True
+        user.password_hash = hash_password("123455")
+        
+    db.commit()
+    db.close()
 
 
 @app.get("/")
