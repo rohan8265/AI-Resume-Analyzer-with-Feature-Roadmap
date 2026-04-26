@@ -15,6 +15,7 @@ export default function RegisterPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (password.length < 6) { toast.error('Password must be at least 6 characters'); return; }
+    if (!/^[a-zA-Z\s]+$/.test(name)) { toast.error('Name must contain only letters and spaces'); return; }
     setLoading(true);
     try {
       const { data } = await registerUser({ name, email, password });

@@ -34,33 +34,36 @@ def _get_sentence_model():
 
 def extract_skills(resume_text: str, domain_skills: list) -> list:
     """Hybrid skill extraction pipeline."""
+    from config import FAST_MODE
     extracted = {}
 
-    # Step 1: spaCy NER extraction
-    ner_skills = _spacy_extract(resume_text)
-    for skill in ner_skills:
-        extracted[skill.lower()] = {"name": skill, "score": 0.8, "source": "ner"}
-
-    # Step 2: Ontology matching (exact + fuzzy)
+    # Step 2: Ontology matching (exact + fuzzy) - Very Fast
     onto_skills = _ontology_match(resume_text, domain_skills)
     for skill, score in onto_skills:
         key = skill.lower()
         if key not in extracted or extracted[key]["score"] < score:
             extracted[key] = {"name": skill, "score": score, "source": "ontology"}
 
-    # Step 3: Sentence-BERT embedding match
-    bert_skills = _bert_match(resume_text, domain_skills)
-    for skill, score in bert_skills:
-        key = skill.lower()
-        if key not in extracted or extracted[key]["score"] < score:
-            extracted[key] = {"name": skill, "score": score, "source": "bert"}
+    if not FAST_MODE:
+        # Step 1: spaCy NER extraction - Slow
+        ner_skills = _spacy_extract(resume_text)
+        for skill in ner_skills:
+            if skill.lower() not in extracted:
+                extracted[skill.lower()] = {"name": skill, "score": 0.8, "source": "ner"}
 
-    # Step 4: TF-IDF fallback
-    tfidf_skills = _tfidf_match(resume_text, domain_skills)
-    for skill, score in tfidf_skills:
-        key = skill.lower()
-        if key not in extracted:
-            extracted[key] = {"name": skill, "score": score, "source": "tfidf"}
+        # Step 3: Sentence-BERT embedding match - Very Slow
+        bert_skills = _bert_match(resume_text, domain_skills)
+        for skill, score in bert_skills:
+            key = skill.lower()
+            if key not in extracted or extracted[key]["score"] < score:
+                extracted[key] = {"name": skill, "score": score, "source": "bert"}
+
+        # Step 4: TF-IDF fallback - Slow
+        tfidf_skills = _tfidf_match(resume_text, domain_skills)
+        for skill, score in tfidf_skills:
+            key = skill.lower()
+            if key not in extracted:
+                extracted[key] = {"name": skill, "score": score, "source": "tfidf"}
 
     return list(extracted.values())
 

@@ -23,3 +23,7 @@ SPACY_MODEL = "en_core_web_sm"
 # Similarity thresholds
 BERT_SIMILARITY_THRESHOLD = 0.75
 FUZZY_MATCH_THRESHOLD = 80
+
+# Performance Mode
+# Set FAST_MODE to True to disable heavy ML models (BERT/spaCy) for faster local and deployed performance.
+FAST_MODE = os.getenv("FAST_MODE", "True").lower() in ("true", "1", "yes")
