@@ -42,6 +42,7 @@ def generate(resume_id: int, db: Session = Depends(get_db), user: User = Depends
     db.query(Roadmap).filter(Roadmap.user_id == user.user_id, Roadmap.resume_id == resume.resume_id).delete()
 
     # Save roadmap
+    saved_items = []
     for item in roadmap_data:
         rm = Roadmap(
             user_id=user.user_id,
@@ -56,9 +57,25 @@ def generate(resume_id: int, db: Session = Depends(get_db), user: User = Depends
             is_completed=False
         )
         db.add(rm)
+        saved_items.append(rm)
     db.commit()
 
-    return {"message": "Roadmap generated", "roadmap": roadmap_data, "total_weeks": max((r["week_number"] for r in roadmap_data), default=0)}
+    returned_roadmap = []
+    for rm in saved_items:
+        db.refresh(rm)
+        returned_roadmap.append({
+            "roadmap_id": rm.roadmap_id,
+            "week_number": rm.week_number,
+            "skill_name": rm.skill_name,
+            "domain": rm.domain,
+            "tasks": rm.tasks,
+            "resources": rm.resources,
+            "project_idea": rm.project_idea,
+            "estimated_hours": rm.estimated_hours,
+            "is_completed": rm.is_completed
+        })
+
+    return {"message": "Roadmap generated", "roadmap": returned_roadmap, "total_weeks": max((r["week_number"] for r in roadmap_data), default=0)}
 
 
 @router.get("/{user_id}")
